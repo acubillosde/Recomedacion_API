@@ -6,7 +6,7 @@ from pydantic import BaseModel, BaseSettings
 from data.model_base import bicis
 from typing import List
 
-# data = pd.read_csv('data/timeseries_full.csv')
+data = pd.read_csv('data/MovieLens.csv')
 
 rf_pickle = open('models/RFregression.pkl', 'rb')
 rf_model = pickle.load(rf_pickle)

@@ -48,22 +48,11 @@ async def predict_demand(bikes:bicis):
     atemp = df['atemp']
     hum = df['hum']
 
-    # return df
     get_val = list(df.values())
-    # return get_val
+    
     prediction = round(rf_model.predict([get_val])[0],3)
     result = {'The number of bikes is': prediction}
     return result
-
-# @app.post('/test')
-# async def predict_demand(valores:list):
-#     rf_pickle = open('models/RFregression.pkl', 'rb')
-#     rf_model = pickle.load(rf_pickle)
-#     # # datos = [data.data_model]
-#     # return np.array(data.data_model)
-#     prediction = rf_model.predict(valores)
-#     return prediction[0]
-
 
 if __name__ == '__main__':
     uvicorn.run(app, host = '127.0.0.1', port=8000)

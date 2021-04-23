@@ -31,10 +31,10 @@ async def get_date(date_time: str):
     return values 
 
 @app.post('/predict')
-async def predict_demand(bikes:bicis):
+async def predict_demand(movie:movie):
     rf_pickle = open('models/RFregression.pkl', 'rb')
     rf_model = pickle.load(rf_pickle)
-    df = bikes.dict()
+    df = movie.dict()
     user = data['user']
     item =  data['item']
     rating = data['rating']
@@ -42,7 +42,7 @@ async def predict_demand(bikes:bicis):
     get_val = list(df.values())
     
     prediction = round(rf_model.predict([get_val])[0],3)
-    result = {'The rating is': prediction}
+    result = {'Se recomienda': prediction}
     return result
 
 if __name__ == '__main__':

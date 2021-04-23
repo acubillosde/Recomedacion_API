@@ -12,27 +12,20 @@ rf_pickle = open('models/RFregression.pkl', 'rb')
 rf_model = pickle.load(rf_pickle)
 
 #values
-season = 1.0
-time = 1.0
-workingday = 0.0
-wheather = 1.0
-temp = 0.22
-atemp = 0.2727
-hum = 0.8
+user = 5
+item = 8
+rating = 4
+
 
 #prediction
-prediction = rf_model.predict([[season, time, workingday, wheather, temp, atemp, hum]])
-print('The number of bikes is:', prediction)
+prediction = rf_model.predict([[user, item, rating]])
+print('Se recomienda:', prediction)
 
 #Convert the dict to an array
 origin = {
-  "season": 1,
-  "hour": 6,
-  "workingday": 0,
-  "wheather": 1,
-  "temp": 0.22,
-  "atemp": 0.2727,
-  "hum": 0.8
+  "user": 1,
+  "item": 6,
+  "rating": 3,
 }
 
 tran_ = list(origin.values())
@@ -42,29 +35,20 @@ rf_model.predict(data_in)
 
 def predict_demand(bikes:bicis):
     df = bikes
-    season = df['season']
-    hour = df['hour']
-    workingday = df['workingday']
-    wheather = df['wheather']
-    temp = df['temp']
-    atemp = df['atemp']
-    hum = df['hum']
-
-    # data = [season, hour, workingday, wheather, temp, atemp, hum]
+    user = data['user']
+    item =  data['item']
+    rating = data['rating']
 
     return df
 
-valores = [1, 6, 0, 1, 0.22, 0.2727, 0.8]
+valores = [1, 6, 3]
 pre = predict_demand(origin)
 
 class bicis(BaseSettings):
-    season: int
-    hour: int 
-    workingday: int
-    wheather: int
-    temp: float
-    atemp: float 
-    hum: float
+    user: int
+    item: int 
+    rating: int
+
 
 def predict_val(valores:list):
     rf_pickle = open('models/RFregression.pkl', 'rb')
@@ -74,4 +58,4 @@ def predict_val(valores:list):
     prediction = rf_model.predict(valores)
     return prediction
 
-predict_val([[1,1,0,1,0.22,0.27,0.8]])[0]
+predict_val([[5,8,4]])[0]

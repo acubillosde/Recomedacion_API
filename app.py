@@ -9,8 +9,7 @@ from data.model_base import bicis
 from typing import List
 from data.list_modebase import values_list
 
-fecha = '2011-01-01 01:00:00'
-data = pd.read_csv('data/timeseries_full.csv')
+data = pd.read_csv('data/MovieLens.csv')
 app = FastAPI()
 
 ###Models 
@@ -21,17 +20,13 @@ rf_model = pickle.load(rf_pickle)
 @app.get('/get_date')
 async def get_date(date_time: str):
     # data = pd.DataFrame()
-    idx = data[data['new_date'] == date_time].index[0]
+    #idx = data[data['new_date'] == date_time].index[0]
 
-    season = data.iloc[idx]['season']
-    time =  data.iloc[idx]['new_time']
-    workingday = data.iloc[idx]['workingday'] 
-    wheather = data.iloc[idx]['weathersit']
-    temp =  data.iloc[idx]['temp']
-    atemp = data.iloc[idx]['atemp']
-    hum = data.iloc[idx]['hum']
+    user = data['user']
+    item =  data['item']
+    rating = data['rating']
 
-    values = {'season': season, 'time': time, 'workday':workingday,'wheather': wheather, 'temp': temp, 'atemp': atemp, 'hum':hum}
+    values = {'user': user, 'item': item, 'rating':rating}
     
     return values 
 
@@ -40,18 +35,14 @@ async def predict_demand(bikes:bicis):
     rf_pickle = open('models/RFregression.pkl', 'rb')
     rf_model = pickle.load(rf_pickle)
     df = bikes.dict()
-    season = df['season']
-    hour = df['hour']
-    workingday = df['workingday']
-    wheather = df['wheather']
-    temp = df['temp']
-    atemp = df['atemp']
-    hum = df['hum']
+    user = data['user']
+    item =  data['item']
+    rating = data['rating']
 
     get_val = list(df.values())
     
     prediction = round(rf_model.predict([get_val])[0],3)
-    result = {'The number of bikes is': prediction}
+    result = {'The rating is': prediction}
     return result
 
 if __name__ == '__main__':

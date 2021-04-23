@@ -6,10 +6,3 @@ class movies(BaseModel):
     user: int
     item: int
     rating: int
-    #wheather: int
-    #temp: float
-    #atemp: float 
-    #hum: float
-
-# class values_list(BaseModel):
-#     data_model = list[float]

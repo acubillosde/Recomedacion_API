@@ -10,8 +10,8 @@ data = pd.read_csv('data/MovieLens.csv')
 
 #idx = data[data['new_date'] == fecha].index[0]
 
-user = data['user id']
-item =  data['item id']
+user = data['user']
+item =  data['item']
 rating = data['rating'] 
 #wheather = data.iloc[idx]['weathersit']
 #temp =  data.iloc[idx]['temp']

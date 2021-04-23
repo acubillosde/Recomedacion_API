@@ -2,10 +2,22 @@ import datetime
 import os
 import numpy as np
 import pandas as pd
+from scipy.sparse import coo_matrix
 
 #Interpolación para los datos de fechas faltantes
 df = pd.read_csv("data/MovieLens.csv")#, parse_dates=[['dteday', 'hr']]) 
 
+def convert_ratings_df_to_matrix(
+        df, shape, columns="user,item,rating".split(',')):
+    data = df[columns].values
+    users = data[:, 0] - 1 # correct for zero index
+    items = data[:, 1] - 1 # correct for zero index
+    values = data[:, 2]
+    return coo_matrix((values, (users, items)), shape=shape).toarray()
+
+n_users = df['user'].unique().shape[0]
+n_items = df['item'].unique().shape[0]
+interactions = convert_ratings_df_to_matrix(df, shape=(n_users, n_items)).astype(np.float64)
 #df['dteday_hr'] = df['dteday_hr'].astype(str)
 #dateparse = lambda dates: [datetime.datetime.strptime(d, '%Y-%m-%d %H') for d in dates] #:%M:%S
 #df['dteday_hr'] = dateparse(df['dteday_hr'])
